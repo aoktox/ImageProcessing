@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Import" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Slideshow" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Tools" />
+    </group>-->
+    <item android:title="Balik">
+        <menu>
+            <item
+                android:id="@+id/blk_vert"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Vertical" />
+            <item
+                android:id="@+id/blk_horiz"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Horizontal" />
+            <item
+                android:id="@+id/blk_90"
+                android:icon="@drawable/ic_menu_send"
+                android:title="90 derajat" />
+            <item
+                android:id="@+id/blk_180"
+                android:icon="@drawable/ic_menu_send"
+                android:title="180 derajat" />
+        </menu>
+    </item>
+    <item android:title="Filter">
+        <menu>
+            <item
+                android:id="@+id/filter_R"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Red" />
+            <item
+                android:id="@+id/filter_G"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Green" />
+            <item
+                android:id="@+id/filter_B"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Blue" />
+        </menu>
+    </item>
+
+    <item android:title="Grayscale">
+        <menu>
+            <item
+                android:id="@+id/gray_Grayscale"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Grayscale" />
+            <item
+                android:id="@+id/gray_q16"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Kuantisasi 16" />
+            <item
+                android:id="@+id/gray_q8"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Kuantisasi 8" />
+            <item
+                android:id="@+id/gray_q4"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Kuantisasi 4" />
+            <item
+                android:id="@+id/gray_q2"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Kuantisasi 2" />
+
+        </menu>
+    </item>
+
+    <item android:title="Biner">
+        <menu>
+            <item
+                android:id="@+id/biner_rata"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Biner rata rata" />
+            <item
+                android:id="@+id/biner_tengah"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Biner Tengah" />
+        </menu>
+    </item>
+
+    <item android:title="Enhancement">
+        <menu>
+            <item
+                android:id="@+id/enhancement_C"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Contrast" />
+            <item
+                android:id="@+id/enhancement_B"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Brightness" />
+            <item
+                android:id="@+id/enhancement_auto"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Auto level" />
+        </menu>
+    </item>
+
+    <item android:title="Transformasi">
+        <menu>
+            <item
+                android:id="@+id/transform_negative"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Negative" />
+            <item
+                android:id="@+id/transform_log"
+                android:icon="@drawable/ic_menu_share"
+                android:title="LOG" />
+            <item
+                android:id="@+id/transform_inverse_log"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Inverse LOG" />
+            <item
+                android:id="@+id/transform_nth_pwr"
+                android:icon="@drawable/ic_menu_share"
+                android:title="NTH Power" />
+            <item
+                android:id="@+id/transform_nth_root"
+                android:icon="@drawable/ic_menu_share"
+                android:title="NTH root power" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/btn_histogram"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Histogram" />
+    <item
+        android:id="@+id/btn_transparent"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Transparent" />
+
+</menu>

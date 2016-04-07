@@ -62,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (item.getItemId()) {
             case R.id.histogram_gan:
-                intent = new Intent(context, HistogramActivity.class);
-                startActivity(intent);
+//                intent = new Intent(context, HistogramActivity.class);
+//                startActivity(intent);
                 return true;
             case R.id.transparan_gan:
-                intent = new Intent(context, TransparentActivity.class);
-                startActivity(intent);
+//                intent = new Intent(context, TransparentActivity.class);
+//                startActivity(intent);
                 return true;
         }
         return false;
@@ -79,10 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        view= (CoordinatorLayout) findViewById(R.id.coor);
+        view= (CoordinatorLayout) findViewById(R.id.coor);
         Toolsku = new Image_tools();
         initializeButton();
-
     }
 
     private void initializeButton(){
@@ -150,12 +149,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.fab2:
-                Log.d("RESULT_LOAD_IMAGE",""+RESULT_LOAD_IMAGE);
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
-                //Log.d("Raj", "Fab 2");
                 break;
             case R.id.balikH_btn:
                 try{
@@ -302,7 +299,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fab1.setClickable(false);
             fab2.setClickable(false);
             isFabOpen = false;
-            //Log.d("Raj", "close");
         } else {
             fab.startAnimation(rotate_forward);
             fab1.startAnimation(fab_open);
@@ -310,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fab1.setClickable(true);
             fab2.setClickable(true);
             isFabOpen = true;
-            //Log.d("Raj","open");
         }
     }
 
@@ -338,31 +333,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try{
                     Bundle extras = data.getExtras();
                     gambar = (Bitmap) extras.get("data");
-                    //mImageView.setImageBitmap(imageBitmap);
                     Toolsku.draw(imageView,gambar);
                 }catch (Exception e){
                     Log.d("Kamera",""+e.getMessage());
                 }
             }
         }
-        /*if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            gambar=BitmapFactory.decodeFile(picturePath);
-            Toolsku.draw(imageView,gambar);
-        }
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mImageView.setImageBitmap(imageBitmap);
-            Toolsku.draw(imageView,imageBitmap);
-        }*/
     }
 }
 
