@@ -286,102 +286,40 @@ public class Image_tools {
         int height = src.getHeight();
         // create output bitmap
         Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
-        // color information
-        int A, R, G, B;
+
+        //int A;//, R, G, B;
         int pixel;
-        int Rmin=0;
-        int Rmax=0;
-        int Gmin=0;
-        int Gmax=0;
-        int Bmin=0;
-        int Bmax=0;
-        int Xmin=0,Xmax=0,gray;
+        int rmax,rmin,gmax,gmin,bmax,bmin;
+        ArrayList<Integer> R = new ArrayList();
+        ArrayList<Integer> G = new ArrayList();
+        ArrayList<Integer> B = new ArrayList();
 
-        /*for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
-                // get pixel color
-                pixel = src.getPixel(x, y);
-
-                if (x==0&&y==0){
-                    Rmin=Color.red(pixel);
-                    Rmax=Color.red(pixel);
-                    Gmin=Color.green(pixel);
-                    Gmax=Color.green(pixel);
-                    Bmin=Color.blue(pixel);
-                    Bmax=Color.blue(pixel);
-                }
-                else {
-                    if (Color.red(pixel)<Rmin){
-                        Rmin=Color.red(pixel);
-                    }
-                    if (Color.red(pixel)>Rmax){
-                        Rmax=Color.red(pixel);
-                    }
-
-                    if (Color.green(pixel)<Gmin){
-                        Rmin=Color.red(pixel);
-                    }
-                    if (Color.green(pixel)>Gmax){
-                        Rmax=Color.red(pixel);
-                    }
-
-                    if (Color.blue(pixel)<Bmin){
-                        Rmin=Color.red(pixel);
-                    }
-                    if (Color.blue(pixel)>Bmax){
-                        Rmax=Color.red(pixel);
-                    }
-                }
-            }
-        }*/
         for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
-                // get pixel color
-                pixel = src.getPixel(x, y);
-                gray = (Color.red(pixel)+Color.green(pixel)+Color.blue(pixel))/3;
-                if (x==0&&y==0){
-                    Xmin=gray;
-                    Xmax=gray;
-                }
-                else {
-                    if (gray<Xmin){
-                        Xmin=gray;
-                    }
-                    if (gray>Xmax){
-                        Xmax=gray;
-                    }
-                }
+            for (int y = 0; y < height; ++y) {
+                pixel=src.getPixel(x,y);
+                R.add(Color.red(pixel));
+                G.add(Color.green(pixel));
+                B.add(Color.blue(pixel));
             }
         }
-        int d = Xmin-Xmax;
-        Log.d("nilai D",""+d);
+
+        rmax=Collections.max(R);
+        rmin=Collections.min(R);
+        gmax=Collections.max(G);
+        gmin=Collections.min(G);
+        bmax=Collections.max(B);
+        bmin=Collections.min(B);
+
         for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
-                // get pixel color
-                pixel = src.getPixel(x, y);
-                // apply filtering on each channel R, G, B
-                gray = (Color.red(pixel)+Color.green(pixel)+Color.blue(pixel))/3;
-                gray=(int)((float)(255/d)*(gray-Xmax));
-                // set new color pixel to output bitmap
-                bmOut.setPixel(x, y, Color.rgb(gray,gray,gray));
+            for (int y = 0; y < height; ++y) {
+                pixel=src.getPixel(x,y);
+                int r=255/(rmax-rmin)*(Color.red(pixel)-rmin);
+                int g=255/(gmax-gmin)*(Color.green(pixel)-gmin);
+                int b=255/(bmax-bmin)*(Color.blue(pixel)-bmin);
+                bmOut.setPixel(x, y, Color.rgb(r, g, b));
             }
         }
-//
-//        // scan through all pixels
-//        for(int x = 0; x < width; ++x) {
-//            for(int y = 0; y < height; ++y) {
-//                // get pixel color
-//                pixel = src.getPixel(x, y);
-//                // apply filtering on each channel R, G, B
-//                A = Color.alpha(pixel);
-//                R = (int)(Color.red(pixel) * red);
-//                G = (int)(Color.green(pixel) * green);
-//                B = (int)(Color.blue(pixel) * blue);
-//                // set new color pixel to output bitmap
-//                bmOut.setPixel(x, y, Color.argb(A, R, G, B));
-//            }
-//        }
-        // return final image
+        Log.d("minmax ",""+rmax+" "+rmin+" "+gmax+" "+gmin+" "+bmax+" "+bmin);
         return bmOut;
     }
 
@@ -393,103 +331,35 @@ public class Image_tools {
         Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
         // color information
         int A;//, R, G, B;
-        int pixel;
+        int pixel,xmax,xmin,gray;
         ArrayList<Integer> R = new ArrayList();
         ArrayList<Integer> G = new ArrayList();
         ArrayList<Integer> B = new ArrayList();
+        ArrayList<Integer> xG = new ArrayList();
 
-        int dR,dG,dB;
-        int xmax=0,xmin=255;
         for(int x = 0; x < width; ++x) {
             for(int y = 0; y < height; ++y) {
                 // get pixel color
                 pixel = src.getPixel(x, y);
-//                R.add(Color.red(pixel));
-//                G.add(Color.green(pixel));
-//                B.add(Color.blue(pixel));
-//                if (x==0&&y==0){
-//                    Rmin=Color.red(pixel);
-//                    Rmax=Color.red(pixel);
-//                    Gmin=Color.green(pixel);
-//                    Gmax=Color.green(pixel);
-//                    Bmin=Color.blue(pixel);
-//                    Bmax=Color.blue(pixel);
-//                }
-                /*if (Color.red(pixel)<Rmin){
-                    Rmin=Color.red(pixel);
-                }
-                if (Color.red(pixel)>Rmax){
-                    Rmax=Color.red(pixel);
-                }
-
-                if (Color.green(pixel)<Gmin){
-                    Rmin=Color.red(pixel);
-                }
-                if (Color.green(pixel)>Gmax){
-                    Rmax=Color.red(pixel);
-                }
-
-                if (Color.blue(pixel)<Bmin){
-                    Rmin=Color.red(pixel);
-                }
-                if (Color.blue(pixel)>Bmax){
-                    Rmax=Color.red(pixel);
-                }*/
-                if (Color.red(pixel)<xmin){
-                    xmin=Color.red(pixel);
-                }
-                if (Color.red(pixel)>xmax){
-                    xmax=Color.red(pixel);
-                }
-
-                if (Color.green(pixel)<xmin){
-                    xmin=Color.red(pixel);
-                }
-                if (Color.green(pixel)>xmax){
-                    xmax=Color.red(pixel);
-                }
-
-                if (Color.blue(pixel)<xmin){
-                    xmin=Color.red(pixel);
-                }
-                if (Color.blue(pixel)>xmax){
-                    xmax=Color.red(pixel);
-                }
+                gray = (Color.red(pixel)+Color.green(pixel)+Color.blue(pixel))/3;
+                xG.add(gray);
             }
         }
-        /*
-        int Rmax=Collections.max(R);
-        int Rmin=Collections.min(R);
-        int Gmax=Collections.max(G);
-        int Gmin=Collections.min(G);
-        int Bmax=Collections.max(B);
-        int Bmin=Collections.min(B);*/
-        int d =xmax-xmin;
-        /*dR = Rmax-Rmin;
-        dG = Gmax-Gmin;
-        dB = Bmax-Bmin;
-        Log.d("minmax ",""+"dR :"+dR+"dG :"+dG+"dB: "+dB); */
-        Log.d("Nilai :","XMAX : "+xmax+" XMIN : "+xmin);
+        xmax=Collections.max(xG);
+        xmin=Collections.min(xG);
+        int d = xmax-xmin;
+        int rmin=Collections.min(R);
+        int gmin=Collections.min(G);
+        int bmin=Collections.min(B);
+        Log.d("nilai D",""+d);
+        int r,g,b;
         for(int x = 0; x < width; ++x) {
             for(int y = 0; y < height; ++y) {
-                // get pixel color
                 pixel = src.getPixel(x, y);
-                A = Color.alpha(pixel);
-                int nR = Color.red(pixel);
-                int nG = Color.green(pixel);
-                int nB = Color.blue(pixel);
-                nR=255*(nR-xmin)/d;
-                nG=255*(nG-xmin)/d;
-                nB=255*(nB-xmin)/d;
-                /*nR=(int)((float)(255/dR)*(nR-Rmax));
-                nG=(int)((float)(255/dG)*(nG-Gmax));
-                nB=(int)((float)(255/dB)*(nB-Bmax));*/
-
-
-                //gray=(int)((float)(255/d)*(gray-Xmax));
-
-                // set new color pixel to output bitmap
-                bmOut.setPixel(x, y, Color.argb(A,nR, nG, nB));
+                r=255/(xmax-xmin)*(Color.red(pixel)-rmin);
+                g=255/(xmax-xmin)*(Color.green(pixel)-gmin);
+                b=255/(xmax-xmin)*(Color.blue(pixel)-bmin);
+                bmOut.setPixel(x, y, Color.rgb(r,g,b));
             }
         }
         // return final image
@@ -501,23 +371,138 @@ public class Image_tools {
         int height = src.getHeight();
         Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
 
-        int A, R, G, B;
+        int A, R, G, B,gray,c=20;
         int pixel;
 
         // scan through all pixels
         for(int x = 0; x < width; ++x) {
             for(int y = 0; y < height; ++y) {
                 pixel = src.getPixel(x, y);
-
                 R = Color.red(pixel);
                 G = Color.green(pixel);
                 B = Color.blue(pixel);
-                A= (R+G+B)/3;
-                A=(int) (2*Math.log(A + 1));
-                if(A>255) A=255;
-                if(A<0) A=0;
+                gray= (R+G+B)/3;
+                gray=(int) (c * Math.log(gray+1));
+                if (gray>255)gray=255;
+                if(gray<0) gray=0;
+                //A=(int) (2*Math.log(A + 1));
+                bmOut.setPixel(x, y, Color.rgb(gray,gray,gray));
+            }
+        }
+        return bmOut;
+    }
 
-                bmOut.setPixel(x, y, Color.rgb(A,A,A));
+    public Bitmap TransformInverseLog(Bitmap src){
+        int width = src.getWidth();
+        int height = src.getHeight();
+        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+
+        int A, R, G, B,gray,c=20,max=255;
+        int pixel;
+
+        // scan through all pixels
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                pixel = src.getPixel(x, y);
+                R = Color.red(pixel);
+                G = Color.green(pixel);
+                B = Color.blue(pixel);
+                gray= (R+G+B)/3;
+                gray=(int) (c * Math.log(max-(gray+1)));
+                if (gray>255)gray=255;
+                if(gray<0) gray=0;
+                //A=(int) (2*Math.log(A + 1));
+                bmOut.setPixel(x, y, Color.rgb(gray,gray,gray));
+            }
+        }
+        return bmOut;
+    }
+
+    public Bitmap NTH(Bitmap src,int c,int yc){
+        int width = src.getWidth();
+        int height = src.getHeight();
+        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+
+        int A, R, G, B,gray;
+        int pixel;
+        double thc,thy;
+        thc=c/100;
+        thy=yc/100;
+        Log.d("C dan Y",""+c+" "+yc);
+        // scan through all pixels
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                pixel = src.getPixel(x, y);
+                R = Color.red(pixel);
+                G = Color.green(pixel);
+                B = Color.blue(pixel);
+                gray= (R+G+B)/3;
+                gray=(int) (thc*Math.pow(gray,thy));
+                if (gray>255)gray=255;
+                if(gray<0) gray=0;
+                //A=(int) (2*Math.log(A + 1));
+                bmOut.setPixel(x, y, Color.rgb(gray,gray,gray));
+            }
+        }
+        return bmOut;
+    }
+
+    public Bitmap NTHRoot(Bitmap src,int c,int yc){
+        int width = src.getWidth();
+        int height = src.getHeight();
+        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+
+        int A, R, G, B,gray;
+        int pixel;
+        double thc,thy;
+        thc=c/100;
+        thy=yc/100;
+        Log.d("C dan Y",""+c+" "+yc);
+        // scan through all pixels
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                pixel = src.getPixel(x, y);
+                R = Color.red(pixel);
+                G = Color.green(pixel);
+                B = Color.blue(pixel);
+                gray= (R+G+B)/3;
+                gray =(int) (thc*Math.pow(gray,(1/thy)));
+                if (gray>255)gray=255;
+                if(gray<0) gray=0;
+                bmOut.setPixel(x, y, Color.rgb(gray,gray,gray));
+            }
+        }
+        return bmOut;
+    }
+
+    public Bitmap TransparentGan(Bitmap src1,double op1,Bitmap src2,double op2){
+        int width = src1.getWidth();
+        int height = src1.getHeight();
+        Bitmap bmOut = Bitmap.createBitmap(width, height, src1.getConfig());
+        op1=op1/100;
+        op2=op2/100;
+        double R1, G1, B1,R2, G2, B2;
+        int r,g,b;
+        int pixel;
+        // scan through all pixels
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                pixel = src1.getPixel(x, y);
+                R1 = Color.red(pixel);
+                G1 = Color.green(pixel);
+                B1 = Color.blue(pixel);
+
+                pixel = src2.getPixel(x, y);
+                R2 = Color.red(pixel);
+                G2 = Color.green(pixel);
+                B2 = Color.blue(pixel);
+                /*r=(int)((op1/100)*R1)+((op2/100)*R2);
+                g=(int)((op1/100)*G1)+((op2/100)*G2);
+                b=(int)((op1/100)*B1)+((op2/100)*B2);*/
+                r=(int)((op1*R1)+(op2*R2));
+                g=(int)((op1*G1)+(op2*G2));
+                b=(int)((op1*B1)+(op2*B2));
+                bmOut.setPixel(x, y, Color.rgb(r,g,b));
             }
         }
         return bmOut;

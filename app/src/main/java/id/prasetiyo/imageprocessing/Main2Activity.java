@@ -2,18 +2,26 @@ package id.prasetiyo.imageprocessing;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,12 +34,18 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URI;
+import java.nio.Buffer;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -39,7 +53,6 @@ public class Main2Activity extends AppCompatActivity
     private Boolean isFabOpen = false;
     private FloatingActionButton fab,fab1,fab2;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
-
     private final static int RESULT_LOAD_IMAGE = 1;
     private final static int REQUEST_IMAGE_CAPTURE = 2;
     private Bitmap gambar;
@@ -49,9 +62,17 @@ public class Main2Activity extends AppCompatActivity
     private ImageView image_asli,image_hasil;
     private Uri tempUri;
     private View view;
-
     //MENU
     private Button blk_vert,blk_horiz,blk_90,blk_180;
+    //SET Color
+    int red=0,green=0,blue=0;
+    Bitmap bmp; //set color
+    ImageView img;
+    Canvas canvas;
+    Paint paint;
+
+    //NTH
+    int nC,nY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +133,21 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_reset:
+                Toolsku.draw(image_hasil,gambar);
+                return true;
+            case R.id.action_simpan:
+
+                return true;
+            case R.id.action_kunci:
+                gambar=((BitmapDrawable)image_hasil.getDrawable()).getBitmap();
+                Toolsku.draw(image_asli,gambar);
+                return true;
         }
+        /*if (id == R.id.action_settings) {
+            return true;
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -185,6 +218,13 @@ public class Main2Activity extends AppCompatActivity
             try {
                 /*tmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();*/
                 Toolsku.draw(image_hasil, Toolsku.setColorFilter(gambar, 0, 0, 1));
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (id == R.id.filter_setColor) {
+            try {
+                setRGB();
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -263,6 +303,13 @@ public class Main2Activity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+        else if (id == R.id.enhancement_auto2) {
+            try {
+                Toolsku.draw(image_hasil, Toolsku.autoLevelRGB(gambar));
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
         //Transformasi
         else if (id == R.id.transform_negative) {
             try {
@@ -281,16 +328,16 @@ public class Main2Activity extends AppCompatActivity
         }
         else if (id == R.id.transform_inverse_log) {
             try {
-                Toolsku.draw(image_hasil, Toolsku.autoLevelRGB(gambar));
+                Toolsku.draw(image_hasil, Toolsku.TransformInverseLog(gambar));
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
         else if (id == R.id.transform_nth_pwr) {
-            //TO DO
+            showNTH(R.id.transform_nth_pwr);
         }
         else if (id == R.id.transform_nth_root) {
-            //TO DO
+            showNTH(R.id.transform_nth_root);
         }
         //LAIN2
         else if (id == R.id.btn_histogram) {
@@ -308,7 +355,8 @@ public class Main2Activity extends AppCompatActivity
             }
         }
         else if (id == R.id.btn_transparent) {
-            //TO DO
+            i = new Intent(context, TransparentActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -405,5 +453,108 @@ public class Main2Activity extends AppCompatActivity
         newWidth=(int)(gambar.getWidth()/pengali);
         //Log.d("Hasil","Pengali="+pengali+" Widht="+newWidth+" Height="+newHeight);
         gambar = Bitmap.createScaledBitmap(gambar,newWidth,newHeight,true);
+    }
+
+    private void setRGB(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View customView = getLayoutInflater().inflate(R.layout.activity_set_color, null);
+        alertDialogBuilder.setView(customView)
+                //alertDialogBuilder.setView(inflater.inflate(R.layout.activity_set_color, null))
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        //dialog = alertDialogBuilder.create();
+        img = (ImageView) customView.findViewById(R.id.set_color);
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        bmp = Bitmap.createBitmap(500, 500, conf);
+        canvas = new Canvas(bmp);
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.BLACK);
+        canvas.drawRect(0,10,500,500,paint);
+        img.setImageBitmap(bmp);
+        DiscreteSeekBar seekBar_red = (DiscreteSeekBar) customView.findViewById(R.id.seekbar_red_filter);
+        DiscreteSeekBar seekBar_green = (DiscreteSeekBar) customView.findViewById(R.id.seekbar_green_filter);
+        DiscreteSeekBar seekBar_blue = (DiscreteSeekBar) customView.findViewById(R.id.seekbar_blue_filter);
+        seekBar_red.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                red=value;
+                int color = Color.rgb(red,green,blue);
+                canvas = new Canvas(bmp);
+                paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setColor(color);
+                canvas.drawRect(0,10,500,500,paint);
+                img.setImageBitmap(bmp);
+            }
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {}
+        });
+        seekBar_green.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                green=value;
+                int color = Color.rgb(red,green,blue);
+                canvas = new Canvas(bmp);
+                paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setColor(color);
+                canvas.drawRect(0,10,500,500,paint);
+                img.setImageBitmap(bmp);
+            }
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {}
+        });
+        seekBar_blue.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                blue=value;
+                int color = Color.rgb(red,green,blue);
+                canvas = new Canvas(bmp);
+                paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setColor(color);
+                canvas.drawRect(0,10,500,500,paint);
+                img.setImageBitmap(bmp);
+            }
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {}
+        });
+        alertDialogBuilder.show();
+    }
+
+    private void showNTH(final int ReqId){
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View customView = getLayoutInflater().inflate(R.layout.input_c_dan_y_nth, null);
+        final EditText NilaiC = (EditText) customView.findViewById(R.id.NTH_nilai_C);
+        final EditText NilaiY = (EditText) customView.findViewById(R.id.NTH_nilai_Y);
+        alertDialogBuilder.setView(customView)
+                //alertDialogBuilder.setView(inflater.inflate(R.layout.activity_set_color, null))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        nC = Integer.parseInt(NilaiC.getText().toString());
+                        nY = Integer.parseInt(NilaiY.getText().toString());
+                        if (ReqId==R.id.transform_nth_pwr) {
+                            Toolsku.draw(image_hasil, Toolsku.NTH(gambar, nC, nY));
+                        }
+                        if (ReqId==R.id.transform_nth_root){
+                            Toolsku.draw(image_hasil, Toolsku.NTHRoot(gambar, nC, nY));
+                        }
+                    }
+                })
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialogBuilder.show();
     }
 }

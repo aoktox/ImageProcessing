@@ -23,7 +23,7 @@
         <menu>
             <item
                 android:id="@+id/blk_vert"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Vertical" />
             <item
                 android:id="@+id/blk_horiz"
@@ -43,7 +43,7 @@
         <menu>
             <item
                 android:id="@+id/filter_R"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Red" />
             <item
                 android:id="@+id/filter_G"
@@ -53,6 +53,10 @@
                 android:id="@+id/filter_B"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Blue" />
+            <item
+                android:id="@+id/filter_setColor"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Set color" />
         </menu>
     </item>
 
@@ -60,7 +64,7 @@
         <menu>
             <item
                 android:id="@+id/gray_Grayscale"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Grayscale" />
             <item
                 android:id="@+id/gray_q16"
@@ -86,7 +90,7 @@
         <menu>
             <item
                 android:id="@+id/biner_rata"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Biner rata rata" />
             <item
                 android:id="@+id/biner_tengah"
@@ -99,7 +103,7 @@
         <menu>
             <item
                 android:id="@+id/enhancement_C"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Contrast" />
             <item
                 android:id="@+id/enhancement_B"
@@ -109,6 +113,10 @@
                 android:id="@+id/enhancement_auto"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Auto level" />
+            <item
+                android:id="@+id/enhancement_auto2"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Auto level RGB" />
         </menu>
     </item>
 
@@ -116,34 +124,34 @@
         <menu>
             <item
                 android:id="@+id/transform_negative"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Negative" />
             <item
                 android:id="@+id/transform_log"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="LOG" />
             <item
                 android:id="@+id/transform_inverse_log"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="Inverse LOG" />
             <item
                 android:id="@+id/transform_nth_pwr"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="NTH Power" />
             <item
                 android:id="@+id/transform_nth_root"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="NTH root power" />
         </menu>
     </item>
 
     <item
         android:id="@+id/btn_histogram"
-        android:icon="@drawable/ic_menu_share"
+        android:icon="@drawable/ic_menu_send"
         android:title="Histogram" />
     <item
         android:id="@+id/btn_transparent"
-        android:icon="@drawable/ic_menu_share"
+        android:icon="@drawable/ic_menu_send"
         android:title="Transparent" />
 
 </menu>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_set_color">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:src="@drawable/rsz_img_5809"
+        android:id="@+id/set_color" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:gravity="left|center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="R"/>
+
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dsb_trackColor="#d90909"
+                app:dsb_progressColor="#d90909"
+                app:dsb_indicatorColor="#d90909"
+                android:id="@+id/seekbar_red_filter"
+                app:dsb_min="0"
+                app:dsb_max="255"  />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:gravity="left|center"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="G"/>
+
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/seekbar_green_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dsb_min="0"
+                app:dsb_max="255"  />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:gravity="left|center"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="B"/>
+
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekbar_blue_filter"
+                app:dsb_trackColor="@color/colorPrimaryDark"
+                app:dsb_progressColor="@color/colorPrimaryDark"
+                app:dsb_indicatorColor="@color/colorPrimaryDark"
+                app:dsb_min="0"
+                app:dsb_max="255"  />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

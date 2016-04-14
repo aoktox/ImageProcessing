@@ -2,8 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_simpan"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Simpan"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="100"
+        android:title="Reset"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_kunci"
+        android:orderInCategory="100"
+        android:title="Kunci"
+        app:showAsAction="never" />
+
 </menu>
